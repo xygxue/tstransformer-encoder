@@ -28,8 +28,8 @@ class Options(object):
         self.parser.add_argument('--save_all', action='store_true',
                                  help='If set, will save model weights (and optimizer state) for every epoch; otherwise just latest')
         self.parser.add_argument('--name', dest='experiment_name', default='',
-                                 help='A string identifier/name for the experiment to be run - it will be appended to the output directory name, before the timestamp')
-        self.parser.add_argument('--comment', type=str, default='', help='A comment/description of the experiment')
+                                 help='A string identifier/name for the experiments to be run - it will be appended to the output directory name, before the timestamp')
+        self.parser.add_argument('--comment', type=str, default='', help='A comment/description of the experiments')
         self.parser.add_argument('--no_timestamp', action='store_true',
                                  help='If set, a timestamp will not be appended to the output directory name')
         self.parser.add_argument('--records_file', default='./records.xls',

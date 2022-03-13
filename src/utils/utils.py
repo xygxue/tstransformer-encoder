@@ -153,7 +153,7 @@ def export_record(filepath, values):
 
 def register_record(filepath, timestamp, experiment_name, best_metrics, final_metrics=None, comment=''):
     """
-    Adds the best and final metrics of a given experiment as a record in an excel sheet with other experiment records.
+    Adds the best and final metrics of a given experiments as a record in an excel sheet with other experiments records.
     Creates excel sheet if it doesn't exist.
     Args:
         filepath: path of excel file keeping records

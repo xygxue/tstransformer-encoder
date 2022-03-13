@@ -11,7 +11,7 @@ import pandas as pd
 from tqdm import tqdm
 from sktime.utils import load_data
 
-from datasets import utils
+from datasets.utils import *
 
 logger = logging.getLogger('__main__')
 
@@ -361,7 +361,7 @@ class TSRegressionArchive(BaseData):
         # Every row of the returned df corresponds to a sample;
         # every column is a pd.Series indexed by timestamp and corresponds to a different dimension (feature)
         if self.config['task'] == 'regression':
-            df, labels = utils.load_from_tsfile_to_dataframe(filepath, return_separate_X_and_y=True, replace_missing_vals_with='NaN')
+            df, labels = load_from_tsfile_to_dataframe(filepath, return_separate_X_and_y=True, replace_missing_vals_with='NaN')
             labels_df = pd.DataFrame(labels, dtype=np.float32)
         elif self.config['task'] == 'classification':
             df, labels = load_data.load_from_tsfile_to_dataframe(filepath, return_separate_X_and_y=True, replace_missing_vals_with='NaN')
@@ -373,7 +373,7 @@ class TSRegressionArchive(BaseData):
                 df, labels = load_data.load_from_tsfile_to_dataframe(filepath, return_separate_X_and_y=True,
                                                                      replace_missing_vals_with='NaN')
             except:
-                df, _ = utils.load_from_tsfile_to_dataframe(filepath, return_separate_X_and_y=True,
+                df, _ = load_from_tsfile_to_dataframe(filepath, return_separate_X_and_y=True,
                                                                  replace_missing_vals_with='NaN')
             labels_df = None
 
@@ -743,9 +743,9 @@ class PMUData(BaseData):
             self.all_df.insert(loc=0, column='ExID', value=IDs)
         else:
             # self.all_df = self.all_df.sort_values(by=['ExID'])  # dataset is presorted
-            self.max_seq_len = 30
+            self.max_seq_len = 675
 
-        self.all_df = self.all_df.set_index('ExID')
+        self.all_df = self.all_df.set_index('account_id')
         # rename columns
         self.all_df.columns = [re.sub(r'\d+', str(i//3), col_name) for i, col_name in enumerate(self.all_df.columns[:])]
         #self.all_df.columns = ["_".join(col_name.split(" ")[:-1]) for col_name in self.all_df.columns[:]]
@@ -782,12 +782,13 @@ class PMUData(BaseData):
         if len(data_paths) == 0:
             raise Exception('No files found using: {}'.format(os.path.join(root_dir, '*')))
 
+
         if pattern is None:
             # by default evaluate on
             selected_paths = data_paths
         else:
             selected_paths = list(filter(lambda x: re.search(pattern, x), data_paths))
-
+        logger.info('path for data is {}'.format(selected_paths))
         input_paths = [p for p in selected_paths if os.path.isfile(p) and p.endswith('.csv')]
         if len(input_paths) == 0:
             raise Exception("No .csv files found using pattern: '{}'".format(pattern))

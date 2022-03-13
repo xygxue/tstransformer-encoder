@@ -73,7 +73,7 @@ def setup(args):
     output_dir = config['output_dir']
     if not os.path.isdir(output_dir):
         raise IOError(
-            "Root directory '{}', where the directory of the experiment will be created, must exist".format(output_dir))
+            "Root directory '{}', where the directory of the experiments will be created, must exist".format(output_dir))
 
     output_dir = os.path.join(output_dir, config['experiment_name'])
 
