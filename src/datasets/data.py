@@ -714,7 +714,7 @@ class SemicondTraceData(BaseData):
         return df
 
 
-class PMUData(BaseData):
+class Data(BaseData):
     """
     Dataset class for Phasor Measurement Unit dataset.
     Attributes:
@@ -740,9 +740,9 @@ class PMUData(BaseData):
             # IDs = list(chain.from_iterable(map(lambda x: repeat(x, self.max_seq_len), range(num_whole_samples + 1))))
             # IDs = IDs[:len(self.all_df)]  # either last sample is completely superfluous, or it has to be shortened
             IDs = [i // self.max_seq_len for i in range(self.all_df.shape[0])]
-            self.all_df.insert(loc=0, column='ExID', value=IDs)
+            self.all_df.insert(loc=0, column='account_id', value=IDs)
         else:
-            # self.all_df = self.all_df.sort_values(by=['ExID'])  # dataset is presorted
+            # self.all_df = self.all_df.sort_values(by=['account_id'])  # dataset is presorted
             self.max_seq_len = 675
 
         self.all_df = self.all_df.set_index('account_id')
