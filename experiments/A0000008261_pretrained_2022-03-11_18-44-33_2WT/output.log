@@ -1,7 +1,0 @@
-Running:
-src/main.py --output_dir experiments --comment pretraining through imputation --name A0000008261_pretrained --records_file Imputation_records.xls --data_dir experiment_data --data_class pmu --pattern TRAIN --val_ratio 0.2 --epochs 700 --lr 0.001 --optimizer RAdam --batch_size 32 --pos_encoding learnable --d_model 128
-
-Using device: cpu
-Loading and preprocessing data ...
-path for data is ['experiment_data/TRAIN.csv']
-Loading 1 datasets files using 1 parallel processes ...
