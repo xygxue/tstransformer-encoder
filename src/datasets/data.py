@@ -714,7 +714,7 @@ class SemicondTraceData(BaseData):
         return df
 
 
-class Data(BaseData):
+class PMUData(BaseData):
     """
     Dataset class for Phasor Measurement Unit dataset.
     Attributes:

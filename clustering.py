@@ -12,11 +12,11 @@ batch_size = 32
 max_seq_len = 675
 feat_dim = 12
 
-config_path = 'experiments/3_pretrained_2022-03-16_19-45-34_ay2/configuration.json'
-model_path = 'experiments/3_pretrained_2022-03-16_19-45-34_ay2/checkpoints/model_best.pth'
-best_pred_path = 'experiments/3_pretrained_2022-03-16_19-45-34_ay2/predictions/best_predictions.npz'
+config_path = 'experiments/3_pretrained_2022-03-17_14-46-30_eVA/configuration.json'
+model_path = 'experiments/3_pretrained_2022-03-17_14-46-30_eVA/checkpoints/model_best.pth'
+best_pred_path = 'experiments/3_pretrained_2022-03-17_14-46-30_eVA/predictions/best_predictions.npz'
 train_csv_path = 'data_exp/TRAIN.csv'
-latent_space_path = 'experiments/3_pretrained_2022-03-16_19-45-34_ay2/predictions/latent_space_output.pt'
+latent_space_path = 'experiments/3_pretrained_2022-03-17_14-46-30_eVA/predictions/latent_space_output.pt'
 train = pd.read_csv(train_csv_path, index_col='account_id')
 
 
@@ -48,14 +48,14 @@ model = TSTransformerEncoderOutput(feat_dim, max_seq_len, config['d_model'], con
                              config['num_layers'], config['dim_feedforward'], dropout=config['dropout'],
                              pos_encoding=config['pos_encoding'], activation=config['activation'],
                              norm=config['normalization_layer'], freeze=config['freeze'])
-pre_model = load_model(model.to('cuda'), model_path)
+pre_model = load_model(model.to('cpu'), model_path)
 model_train = model.train()
-output = []
+
+output = torch.tensor([]).to('cpu')
 
 for i in range(len(X_batch)):
-    try:
-        output_batch = model_train(X_batch[i].to('cuda'), pad_batch[i].to('cuda'))
-        output = torch.cat((output, output_batch), dim=1)
-    except:
-        output = output_batch
+    output_batch = model_train(X_batch[i].to('cpu'), pad_batch[i].to('cpu'))
+    #output.append(output_batch)
+    output = torch.cat((output, output_batch.detach().to('cpu')), dim=1)
+
 torch.save(output, latent_space_path)
