@@ -1,8 +1,5 @@
 from __future__ import print_function
 
-# Unlike the rest of the PyTorch this file must be python2 compliant.
-# This script outputs relevant system environment info
-# Run it with `python collect_env.py`.
 import datetime
 import locale
 import re
@@ -78,6 +75,7 @@ def run_and_parse_first_match(run_lambda, command, regex):
     if match is None:
         return None
     return match.group(1)
+
 
 def run_and_return_first_line(run_lambda, command):
     """Runs command using run_lambda and returns first line if output is not empty"""
